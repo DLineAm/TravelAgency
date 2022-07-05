@@ -1,0 +1,6 @@
+{
+    "dependencies": {
+        "NETStandard.Library": "1.6.0",
+        "System.Data.SqlClent" :  "4.1.0"
+    }
+}

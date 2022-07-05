@@ -1,0 +1,568 @@
+﻿<Window x:Class="TravelAgency.Views.VoucherDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TravelAgency.Views" xmlns:services="clr-namespace:TravelAgency.Services"
+        xmlns:viewmodels="clr-namespace:TravelAgency.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:VouchersDetailsViewModel}"
+        xmlns:models="clr-namespace:TravelAgency.Models"
+        mc:Ignorable="d"
+        Height="700" Width="600"
+        WindowStyle="None"
+        Title="{Binding Title, Mode=OneTime}"
+        Background="{DynamicResource BackgroundColor}"
+        ResizeMode="CanMinimize">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="22" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <services:ChangeLabelVisibilityConverter x:Key="VisibilityConverter"></services:ChangeLabelVisibilityConverter>
+        <services:DaysConverter x:Key="DaysConverter" />
+
+        <Style TargetType="TextBox">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource ForegroundColor}"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="Transparent"
+                            BorderBrush="{DynamicResource ForegroundColor}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      FontSize="{TemplateBinding FontSize}"
+                                        />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+<Border BorderThickness="1" BorderBrush="Black">
+    <Grid Style="{DynamicResource GridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <local:TitleBar IsMaximize="False"/>
+
+        <!--Title-->
+        <Label Grid.Row="1" Content="{Binding Title, Mode=OneTime}"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Top"
+                       FontSize="34"
+                       Foreground="{DynamicResource ForegroundColor}"></Label>
+        <Rectangle Grid.Row="1" VerticalAlignment="Bottom"
+                           Fill="{DynamicResource ForegroundColor}"
+                           Height="2"
+                           Margin="15,0,15,0"></Rectangle>
+        <Viewbox Stretch="UniformToFill"
+                 Grid.Row="1"
+                 Margin="0,0,6,0"
+                 Height="60"
+                 Width="60"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Right">
+            <Canvas Width="120" Height="120">
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="0" Y="0"/>
+                </Canvas.RenderTransform>
+                <Canvas.Resources/>
+                <Canvas>
+                    <Path Fill="{DynamicResource ForegroundColor}">
+                        <Path.Data>
+                            <PathGeometry Figures="M 44.133594 86.660971 C 43.306561 85.664457 43.67276 81.926633 45.565208 72.048363 46.963809 64.747895 47.971292 58.654615 47.804059 58.50774 47.636827 58.360865 43.454582 59.808249 38.510182 61.724149 25.655062 66.705366 17.172604 68.335871 12.373758 66.748113 8.8918174 65.59607 8.2549845 64.744114 4.1001781 55.679714 -0.889916 44.792996 -0.77932323 42.747297 4.8295428 42.188231 c 2.3913353 -0.238358 4.3593179 0.627289 8.3577242 3.676272 4.944284 3.770262 5.395967 3.917797 8.271306 2.701694 C 23.131358 47.858705 36.875 41.72304 52 34.931385 78.161758 23.18384 79.824736 22.580904 86.173116 22.541461 c 6.837931 -0.04249 10.61524 1.590579 13.216089 5.713781 1.711005 2.712511 -2.625547 6.228883 -16.081154 13.039687 L 71.049148 47.5 l -2.667761 6 c -9.555973 21.492122 -14.498272 30.60062 -17.645056 32.519273 -3.815403 2.326322 -5.100935 2.451258 -6.602737 0.641698 z M 25.128633 35.925877 C 21.757885 33.794601 19 31.375949 19 30.551095 c 0 -2.041302 5.167938 -4.564301 9.20034 -4.491626 1.814813 0.03271 7.34966 1.3386 12.29966 2.901984 8.151321 2.574474 8.764256 2.937036 6.5 3.844861 -1.375 0.55129 -5.479615 2.350605 -9.121367 3.998478 l -6.621367 2.996133 z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Canvas>
+        </Viewbox>
+
+        <StackPanel Grid.Row="2"
+                            Margin="15,20,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center">
+            <!--StartDate-->
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Дата вылета: "
+                                   Style="{DynamicResource LabelStyle}"
+                                   Width="150"
+                                   HorizontalContentAlignment="Right"
+                                   VerticalContentAlignment="Center"></Label>
+                            <Grid Margin="10,0,0,0">
+                                <Label Width="240"
+                                       Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                                       Style="{StaticResource LabelStyle}"
+                                       Content="{Binding StartDate}"
+                                       ContentStringFormat="{}{0:d}" />
+                                <DatePicker Width="150"
+                                            Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                            FontSize="16"
+                                            SelectedDate="{Binding StartDate}"
+                                            Foreground="Black" />
+                            </Grid>
+                        </StackPanel>
+                        <!--EndDate-->
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10,0,0">
+                            <Label Content="Дата прилета: "
+                                   Style="{DynamicResource LabelStyle}"
+                                   Width="150"
+                                   HorizontalContentAlignment="Right"
+                                   VerticalContentAlignment="Center"></Label>
+                            <Grid Margin="10,0,0,0">
+                                <Label Width="240"
+                                       Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                                       Style="{StaticResource LabelStyle}"
+                                       Content="{Binding EndDate}"
+                                       ContentStringFormat="{}{0:d}" />
+                                <DatePicker  Width="150"
+                                             Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                             FontSize="16"
+                                             Foreground="Black"
+                                             SelectedDate="{Binding EndDate}"
+                                             />
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}">
+                        <Grid>
+                            <Path Stroke="{DynamicResource ForegroundColor}"
+                                  StrokeThickness="3">
+                                <Path.Data>
+                                    <EllipseGeometry Center="20,15"
+                                                     RadiusX="5"
+                                                     RadiusY="5" />
+                                </Path.Data>
+                            </Path>
+                            <Path Stroke="{DynamicResource ForegroundColor}"
+                                  StrokeThickness="3">
+                                <Path.Data>
+                                    <LineGeometry StartPoint="20,23"
+                                                  EndPoint="20,47" />
+                                </Path.Data>
+                            </Path>
+                            <Path Stroke="{DynamicResource ForegroundColor}"
+                                  StrokeThickness="3">
+                                <Path.Data>
+                                    <EllipseGeometry Center="20,55"
+                                                     RadiusX="5"
+                                                     RadiusY="5" />
+                                </Path.Data>
+                            </Path>
+                        </Grid>
+                        <Label Content="{Binding Duration,Converter={StaticResource DaysConverter}}"
+                               Style="{StaticResource LabelStyle}" 
+                               VerticalAlignment="Center"
+                               Margin="0,0,0,5"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+                
+                <!--Client-->
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                <Label Content="ФИО клиента: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"
+                           VerticalContentAlignment="Center"></Label>
+                <Grid Margin="10,0,0,0">
+                    <Label Width="240"
+                               Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource LabelStyle}">
+                        <Label.Content>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                        <Binding Path="Client.Surname"></Binding>
+                                        <Binding Path="Client.Name"></Binding>
+                                        <Binding Path="Client.Patronymic"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                    <ComboBox Width="240"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"
+                             ItemsSource="{Binding Clients}"
+                                 SelectedItem="{Binding Client}"
+                                 IsEditable="False">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Surname}" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <Label Content="{Binding Name}" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <Label Content="{Binding Patronymic}" Foreground="{DynamicResource ForegroundColor}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+            <!--Stuff-->
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                <Label Content="ФИО сотрудника: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                <Grid Margin="10,0,0,0">
+                    <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}">
+                        <Label.Content>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                        <Binding Path="Stuff.Surname"></Binding>
+                                        <Binding Path="Stuff.Name"></Binding>
+                                        <Binding Path="Stuff.Patronymic"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                    <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding Stuffs}"
+                              SelectedItem="{Binding Stuff}"
+                              IsEditable="False">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Surname}" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <Label Content="{Binding Name}" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <Label Content="{Binding Patronymic}" Foreground="{DynamicResource ForegroundColor}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+            <!--Hotel-->
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                <Label Content="Отель: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                <Grid Margin="10,0,0,0">
+                    <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}">
+                        <Label.Content>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} ({1}, {2})">
+                                        <Binding Path="Hotel.Name"></Binding>
+                                        <Binding Path="Hotel.Country"></Binding>
+                                        <Binding Path="Hotel.City"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                    <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding Hotels}"
+                              SelectedItem="{Binding Hotel}"
+                              IsEditable="False">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Foreground="{DynamicResource ForegroundColor}">
+                                        <Label.Content>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0} ({1}, {2})">
+                                                        <Binding Path="Name"></Binding>
+                                                        <Binding Path="Country"></Binding>
+                                                        <Binding Path="City"></Binding>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Label.Content>
+                                    </Label>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+            <!--RestType-->
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                <Label Content="Вид отдыха: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                <Grid Margin="10,0,0,0">
+                    <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}"
+                           Content="{Binding RestType.Name}">
+                    </Label>
+                    <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding RestTypes}"
+                              SelectedItem="{Binding RestType}"
+                              IsEditable="False">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Foreground="{DynamicResource ForegroundColor}" Content="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+            <!--Addit Serivce1-->
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                    <Label Content="Доп услуга 1: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}">
+                            <Label.Content>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}, {1}₽">
+                                            <Binding Path="AdditionalService1.Name"></Binding>
+                                            <Binding Path="AdditionalService1.Price"></Binding>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Label.Content>
+                        </Label>
+                        <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding AdditionalServices}"
+                              SelectedItem="{Binding AdditionalService1}"
+                              IsEditable="False">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Foreground="{DynamicResource ForegroundColor}">
+                                            <Label.Content>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0}, {1}₽">
+                                                            <Binding Path="Name"></Binding>
+                                                            <Binding Path="Price"></Binding>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+
+                <!--Addit Serivce2-->
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                    <Label Content="Доп услуга 2: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}">
+                            <Label.Content>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}, {1}₽">
+                                            <Binding Path="AdditionalService2.Name"></Binding>
+                                            <Binding Path="AdditionalService2.Price"></Binding>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Label.Content>
+                        </Label>
+                        <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding AdditionalServices}"
+                              SelectedItem="{Binding AdditionalService2}"
+                              IsEditable="False">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Foreground="{DynamicResource ForegroundColor}">
+                                            <Label.Content>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0}, {1}₽">
+                                                            <Binding Path="Name"></Binding>
+                                                            <Binding Path="Price"></Binding>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+
+                <!--Addit Serivce3-->
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                    <Label Content="Доп услуга 3: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}">
+                            <Label.Content>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}, {1}₽">
+                                            <Binding Path="AdditionalService3.Name"></Binding>
+                                            <Binding Path="AdditionalService3.Price"></Binding>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Label.Content>
+                        </Label>
+                        <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding AdditionalServices}"
+                              SelectedItem="{Binding AdditionalService3}"
+                              IsEditable="False">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Foreground="{DynamicResource ForegroundColor}">
+                                            <Label.Content>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0}, {1}₽">
+                                                            <Binding Path="Name"></Binding>
+                                                            <Binding Path="Price"></Binding>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+
+                <!--Payment Status-->
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                    <Label Content="Статус покупки: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}"
+                               Content="{Binding PaymentStatus}">
+                        </Label>
+                        <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding PaymentStatuses}"
+                              SelectedItem="{Binding PaymentStatus}"
+                              IsEditable="False"/>
+                    </Grid>
+                </StackPanel>
+
+                <!--Booking Status-->
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+                    <Label Content="Статус бронирования: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="240"
+                           Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                           Style="{StaticResource LabelStyle}"
+                               Content="{Binding BookingStatus}">
+                        </Label>
+                        <ComboBox Width="240"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              FontSize="16"
+                              Foreground="{DynamicResource ForegroundColor}"
+                              ItemsSource="{Binding BookingStatuses}"
+                              SelectedItem="{Binding BookingStatus}"
+                              IsEditable="False"/>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+     
+            <!--Footer-->
+        <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center">
+            <Button Content="Принять"
+                        Width="100"
+                        Margin="10"
+                    Height="25"
+                        Command="{Binding ApplyCommand}"/>
+            <Button Content="Изменить" Width="100"
+                        Margin="10"
+                        Command="{Binding ChangeCommand}"
+                        Visibility="{Binding ChangeBtnVisibility}"></Button>
+        </StackPanel>
+    </Grid>
+</Border>
+</Window>

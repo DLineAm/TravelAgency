@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:TravelAgency.Resources">
+
+    <SolidColorBrush x:Key="BackgroundColor" Color="#FF383861"/>
+    <SolidColorBrush x:Key="ForegroundColor" Color="White"></SolidColorBrush>
+    <SolidColorBrush x:Key="TabBackgroundColor" Color="#FF1C1C2C"></SolidColorBrush>
+    <SolidColorBrush x:Key="ListViewItemMouseOver" Color="#FF404D5B"></SolidColorBrush>
+
+    <Style TargetType="Grid" x:Key="GridStyle">
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect RenderingBias="Quality"></DropShadowEffect>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Rectangle" x:Key="Rectangle">
+        <Setter Property="Fill">
+            <Setter.Value>
+                <RadialGradientBrush>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.5"/>
+                </RadialGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

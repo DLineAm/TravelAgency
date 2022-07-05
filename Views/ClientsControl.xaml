@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="TravelAgency.Views.ClientsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TravelAgency.Views"
+             xmlns:vm="clr-namespace:TravelAgency.ViewModels"
+             xmlns:services="clr-namespace:TravelAgency.Services"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1000"
+             d:DataContext="{d:DesignInstance Type=vm:ClientsControlViewModel}">
+
+    <UserControl.DataContext>
+        <vm:ClientsControlViewModel></vm:ClientsControlViewModel>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <services:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter" />
+        <services:GenderConverter x:Key="GenderConverter"/>
+        <services:ResultVisibilityConverter x:Key="ResultVisibilityConverter"/>
+        <services:SearchCountToTextConverter x:Key="SearchConverter"/>
+
+        <!--ListView Style-->
+        <Style TargetType="ListView" x:Key="ListView">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border Style="{StaticResource BorderStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox Stretch="Uniform"
+                                         Height="50"
+                                         Margin="5">
+                                        <Canvas Width="90" Height="90">
+                                            <Canvas.RenderTransform>
+                                                <TranslateTransform X="0" Y="0"/>
+                                            </Canvas.RenderTransform>
+                                            <Canvas.Resources/>
+                                            <Canvas>
+                                                <Path Fill="{DynamicResource ForegroundColor}">
+                                                    <Path.Data>
+                                                        <PathGeometry Figures="M 41 9.52932 C 18.1956 14.7641 25.3419 52.9015 49 47.4707 71.8044 42.2359 64.6581 4.09854 41 9.52932 M 24.930232 61.40177 c 0 0 -19.5580696 7.7817 -9.781332 15.57043 3.215307 1.264162 58.487333 0.500598 58.487333 0.500598 11.2877 -3.02 -0.925547 -13.168175 -6.688559 -15.683554 C 62.775942 59.136276 59.554311 58.031824 55.693551 58.951081 51.832791 59.870337 47.332901 62.8133 45 62.8133 c -2.4653 0 -8.399266 -3.582016 -12.192511 -3.796559 -3.793245 -0.214543 -7.877257 2.385029 -7.877257 2.385029 z" FillRule="NonZero"/>
+                                                    </Path.Data>
+                                                </Path>
+                                            </Canvas>
+                                        </Canvas>
+                                    </Viewbox>
+                                    <Label Foreground="{DynamicResource ForegroundColor}"
+                                       FontSize="18" FontWeight="Bold"
+                                       VerticalContentAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                                        <Binding Path="Surname"></Binding>
+                                                        <Binding Path="Name"></Binding>
+                                                        <Binding Path="Patronymic"></Binding>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Label.Content>
+                                    </Label>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Right"
+                                            Margin="10,20,10,10">
+                                    <Button Content="Подробнее" 
+                                            Width="90"
+                                            Height="25"
+                                            Command="{Binding DataContext.GetClientCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></Button>
+                                    <Button Content="Удалить" 
+                                            Margin="10,0,0,0"
+                                            Width="90"
+                                            Command="{Binding DataContext.DeleteClientCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></Button>
+                                </StackPanel>
+                                <Border Grid.Row="1"
+                                        Background="{DynamicResource ForegroundColor}"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Stretch"
+                                        Height="2"
+                                        Margin="6,0,6,0"
+                                        CornerRadius="2">
+                                </Border>
+                                <StackPanel Orientation="Horizontal"
+                                            Grid.Row="1"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Right"
+                                            Margin="5,5,11,8">
+                                    <Image Height="20" Width="20" Source="/Resources/icons8-phone-100.png"/>
+                                    <TextBlock Foreground="Gray"
+                                       Text="{Binding Phone}"
+                                               VerticalAlignment="Center"
+                                               TextDecorations="Underline"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1"
+                                            Margin="5,5,0,0">
+                                    <Label Content="{Binding DateOfBirth}"
+                                           Foreground="{DynamicResource ForegroundColor}"
+                                           ContentStringFormat="{}Дата рождения: {0:d}"/>
+                                    <Label Content="{Binding Gender, Converter={StaticResource GenderConverter}}"
+                                           Foreground="{DynamicResource ForegroundColor}"
+                                           ContentStringFormat="{}Пол: {0}"
+                                           Margin="0,0,0,5"></Label>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--Title-->
+        <Label Grid.Row="0" Content="Клиенты"
+               VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center" 
+               VerticalAlignment="Top"
+               FontSize="34"
+               Foreground="White"
+               Margin="10"></Label>
+        <Button Grid.Row="0" Content="Добавить клиента"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Height="30" Width="150"
+                Margin="10,10,20,10"
+                FontSize="16"
+                Foreground="White"
+                BorderBrush="White"
+                Command="{Binding AddClientCommand}"
+                Style="{StaticResource BackgroundButton}"/>
+
+        <!--Sort-->
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Label Content="Сортировка:"
+                       Foreground="White"
+                       VerticalContentAlignment="Center"
+                       FontSize="16"
+                       Margin="5,0,0,0"/>
+                <ToggleButton Style="{StaticResource TbStyle}"
+                              Background="Transparent"
+                              Margin="5,0,0,0"
+                              Command="{Binding SortCommand}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,15,0,0"
+                        HorizontalAlignment="Center">
+                <Label Content="Пол: "
+                       Foreground="White"
+                       VerticalContentAlignment="Center"
+                       FontSize="16"/>
+                <ComboBox SelectedIndex="{Binding SelectedGender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Width="130"
+                          FontSize="16"
+                          IsEditable="False"
+                          Height="35"
+                          Style="{StaticResource BackgroundComboBox}">
+                    <ComboBox.Resources>
+                        <Style TargetType="Label">
+                            <Setter Property="Foreground" Value="White"></Setter>
+                        </Style>
+                    </ComboBox.Resources>
+                    <ComboBoxItem>
+                        <Label>Все</Label>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <Label>Мужской</Label>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <Label>Женский</Label>
+                    </ComboBoxItem>
+                </ComboBox>
+                <Label Content="Название: "
+                       Foreground="White"
+                       FontSize="16"
+                       Margin="20,0,0,0"
+                       VerticalContentAlignment="Center"/>
+                <Grid>
+                    <TextBox Text="{Binding NameSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Width="240"
+                         FontSize="16"
+                         BorderBrush="White"
+                         Foreground="White"
+                         CaretBrush="White"
+                         Name="SearchTb"
+                             Height="35"/>
+                    <TextBlock 
+                Margin="10,10" 
+                Text="Найти"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                FontSize="16"
+                Foreground="White"
+                        Opacity=".8">
+                        <TextBlock.Visibility>
+                            <MultiBinding Converter="{StaticResource TextInputToVisibilityConverter}">
+                                <Binding ElementName="SearchTb" Path="Text.IsEmpty" />
+                                <Binding ElementName="SearchTb" Path="IsFocused" />
+                            </MultiBinding>
+                        </TextBlock.Visibility>
+                    </TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+            <TextBlock Text="{Binding Clients.Count, Converter={StaticResource SearchConverter}}"
+                           FontSize="16"
+                           Foreground="White"
+                           Margin="10,10,0,0"
+                       HorizontalAlignment="Center">
+
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource ResultVisibilityConverter}">
+                        <Binding ElementName="SearchTb" Path="Text.IsEmpty"/>
+                        <Binding ElementName="SearchTb" Path="IsFocused"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+
+            </TextBlock>
+        </StackPanel>
+
+
+        <ListView Grid.Row="2"
+                  Background="Transparent"
+                  BorderBrush="Transparent"
+                  BorderThickness="0"
+                  ItemsSource="{Binding Clients}"
+                  Margin="10,30,10,10"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  SelectedItem="{Binding SelectedClient}"
+                  Style="{StaticResource ListView}"
+                  HorizontalContentAlignment="Stretch">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel HorizontalAlignment="Stretch"
+                                ></StackPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+    </Grid>
+</UserControl>

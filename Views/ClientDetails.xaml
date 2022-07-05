@@ -1,0 +1,248 @@
+﻿<Window x:Class="TravelAgency.Views.ClientDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:services="clr-namespace:TravelAgency.Services"
+             xmlns:views="clr-namespace:TravelAgency.Views"
+             prism:ViewModelLocator.AutoWireViewModel="False"
+             Height="600" Width="630"
+             WindowStyle="None"
+             Title="{Binding Title, Mode=OneTime}"
+             Background="{DynamicResource BackgroundColor}"
+             ResizeMode="CanMinimize">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="22" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <services:GenderConverter x:Key="GenderConverter"/>
+        <services:ChangeLabelVisibilityConverter x:Key="VisibilityConverter"></services:ChangeLabelVisibilityConverter>
+
+        <Style TargetType="TextBox">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource ForegroundColor}"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="Transparent"
+                            BorderBrush="{DynamicResource ForegroundColor}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      FontSize="{TemplateBinding FontSize}"
+                                        />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderThickness="1" BorderBrush="Black">
+        <Grid Style="{DynamicResource GridStyle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <views:TitleBar IsMaximize="False"/>
+
+            <Label Grid.Row="1" Content="{Binding Title, Mode=OneTime}"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Top"
+                       FontSize="34"
+                       Foreground="{DynamicResource ForegroundColor}"></Label>
+            <Rectangle Grid.Row="1" VerticalAlignment="Bottom"
+                           Fill="{DynamicResource ForegroundColor}"
+                           Height="2"
+                           Margin="15,0,15,0"></Rectangle>
+            <Viewbox Grid.Row="1" Stretch="Fill"
+                 Height="60"
+                 Width="60"
+                 Margin="0,0,10,0"
+                 HorizontalAlignment="Right">
+                <Canvas Width="90" Height="90">
+                    <Canvas.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Canvas.RenderTransform>
+                    <Canvas.Resources/>
+                    <Canvas>
+                        <Path Fill="{DynamicResource ForegroundColor}">
+                            <Path.Data>
+                                <PathGeometry Figures="M 41 9.52932 C 18.1956 14.7641 25.3419 52.9015 49 47.4707 71.8044 42.2359 64.6581 4.09854 41 9.52932 M 24.930232 61.40177 c 0 0 -19.5580696 7.7817 -9.781332 15.57043 3.215307 1.264162 58.487333 0.500598 58.487333 0.500598 11.2877 -3.02 -0.925547 -13.168175 -6.688559 -15.683554 C 62.775942 59.136276 59.554311 58.031824 55.693551 58.951081 51.832791 59.870337 47.332901 62.8133 45 62.8133 c -2.4653 0 -8.399266 -3.582016 -12.192511 -3.796559 -3.793245 -0.214543 -7.877257 2.385029 -7.877257 2.385029 z" FillRule="NonZero"/>
+                            </Path.Data>
+                        </Path>
+                    </Canvas>
+                </Canvas>
+            </Viewbox>
+
+            <!--Data-->
+            <StackPanel Grid.Row="2"
+                            Margin="0,40,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Имя: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                               Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                               Content="{Binding Name}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                        <TextBox Width="200" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,15,0,0">
+                    <Label Content="Фамилия: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding Surname}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                        <TextBox Width="200" Text="{Binding Surname}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                    <Label Content="Отчество: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding Patronymic}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                        <TextBox Width="200" Text="{Binding Patronymic}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,15,0,0">
+                    <Label Content="Пол: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                           Visibility="{Binding LabelVisibility}"
+                           Content="{Binding Gender}"
+                           Style="{DynamicResource LabelStyle}"></Label>
+                        <ComboBox SelectedItem="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding Genders}"
+                              FontSize="16"
+                              Height="35"
+                              Width="200"
+                              Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                              IsEditable="False"
+                              Foreground="{DynamicResource ForegroundColor}">
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                        Margin="0,15,0,0">
+                    <Label Content="Дата рождения: "
+                       Style="{DynamicResource LabelStyle}"
+                       Width="150"
+                       HorizontalContentAlignment="Right"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                           Visibility="{Binding LabelVisibility}"
+                           Content="{Binding DateOfBirth}"
+                           Style="{DynamicResource LabelStyle}"></Label>
+                        <DatePicker Width="200" SelectedDate="{Binding DateOfBirth}"
+                             Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                             FontSize="16"
+                             Foreground="Black" DisplayDateStart="1753-01-01"
+                             BorderBrush="Black">
+                        </DatePicker>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                    <Label Content="Адрес: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding Address}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                        <TextBox Width="200" Text="{Binding Address}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                    <Label Content="Номер телефона: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding Phone}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                        <TextBox Width="200" Text="{Binding Phone}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                    <Label Content="Номер паспорта: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                    <Grid Margin="10,0,0,0">
+                        <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding PassportCode}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                        <TextBox Width="200" Text="{Binding PassportCode}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center">
+                <Button Content="Принять"
+                        Width="100"
+                        Height="25"
+                        Margin="10"
+                        Command="{Binding ApplyCommand}"/>
+                <Button Content="Изменить" Width="100"
+                        Margin="10"
+                        Command="{Binding ChangeCommand}"
+                        Visibility="{Binding ChangeBtnVisibility}"></Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,255 @@
+﻿<Window x:Class="TravelAgency.Views.HotelDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"          
+             prism:ViewModelLocator.AutoWireViewModel="False"
+             xmlns:v="clr-namespace:TravelAgency.Views"
+             xmlns:services="clr-namespace:TravelAgency.Services"
+             Height="450" Width="500"
+             WindowStyle="None"
+             Title="{Binding Title, Mode=OneTime}"
+             Background="{DynamicResource BackgroundColor}"
+             ResizeMode="CanMinimize">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="22" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <services:ChangeLabelVisibilityConverter x:Key="VisibilityConverter"></services:ChangeLabelVisibilityConverter>
+
+
+        <Style TargetType="TextBox">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource ForegroundColor}"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="Transparent"
+                            BorderBrush="{DynamicResource ForegroundColor}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderThickness="1" BorderBrush="Black">
+        <Grid Style="{DynamicResource GridStyle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <v:TitleBar Grid.Row="0"
+                    IsMaximize="False"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!--Title-->
+                <Label Content="{Binding Title, Mode=OneTime}"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center" 
+                       VerticalAlignment="Top"
+                       FontSize="34"
+                       Foreground="{DynamicResource ForegroundColor}"></Label>
+                <Rectangle Grid.Row="0" VerticalAlignment="Bottom"
+                           Fill="{DynamicResource ForegroundColor}"
+                           Height="2"
+                           Margin="15,0,15,0"></Rectangle>
+                <Viewbox Grid.Row="0"
+                                         DockPanel.Dock="Right"
+                                         Height="50" Width="50"
+                                         Margin="0,5,15,0"
+                                     HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Canvas Width="50" Height="50">
+                        <Canvas.RenderTransform>
+                            <TranslateTransform X="0" Y="0"/>
+                        </Canvas.RenderTransform>
+                        <Canvas.Resources/>
+                        <!--Unknown tag: metadata-->
+                        <!--Unknown tag: sodipodi:namedview-->
+                        <Canvas>
+                            <Canvas>
+                                <Path Fill="{DynamicResource ForegroundColor}">
+                                    <Path.Data>
+                                        <PathGeometry Figures="M 4 28.5 C 4 5.4414201 2.4776662 7 25 7 47.522334 7 46 5.4414201 46 28.5 V 46 h -9 -9 v -5 c 0 -4.888889 -0.06667 -5 -3 -5 -2.933333 0 -3 0.111111 -3 5 v 5 H 13 4 Z M 16 38 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 24 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 16 30 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 16 22 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 16 14 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 6.6664297 4.5731131 C 5.9067168 2.5933329 8.3037003 0.70370035 9.7456486 2.1456486 11.083932 3.4839319 10.270789 6 8.5 6 7.7926877 6 6.9675811 5.3579009 6.6664297 4.5731131 Z M 14.732288 4.7447364 C 14.01652 2.8794766 16.659132 0.64354944 17.669016 2.2599558 19.093678 4.5402512 18.839782 6 17.018505 6 16.026015 6 14.997217 5.4351314 14.732288 4.7447364 Z M 23.015313 4.75 c 0.0084 -0.6875 0.458422 -1.925 1 -2.75 C 24.89059 0.66666667 25.10941 0.66666667 25.984687 2 27.555872 4.3934271 27.160379 6 25 6 23.9 6 23.006891 5.4375 23.015313 4.75 Z m 8.351291 0 c 0.1043 -0.6875 0.538271 -1.8080199 0.96438 -2.4900442 1.009884 -1.61640636 3.652496 0.6195208 2.936728 2.4847806 -0.626923 1.633735 -4.148883 1.638487 -3.901108 0.00526 z M 39.66643 4.5731131 C 38.906717 2.5933329 41.3037 0.70370035 42.745649 2.1456486 44.083932 3.4839319 43.270789 6 41.5 6 40.792688 6 39.967581 5.3579009 39.66643 4.5731131 Z" FillRule="NonZero"/>
+                                    </Path.Data>
+                                </Path>
+                                <Path Name="path24" Fill="{DynamicResource ForegroundColor}">
+                                    <Path.Data>
+                                        <PathGeometry Figures="M 4.6666667 45.333333 C 4.3 44.966667 4 37.091667 4 27.833333 4 5.5480364 2.5364207 7 25 7 47.600385 7 46.135107 5.4994542 45.773513 28.273513 L 45.5 45.5 36.75 45.788933 28 46.077866 V 41.038933 C 28 36.106785 27.936424 36 25 36 c -2.933333 0 -3 0.111111 -3 5 v 5 H 13.666667 C 9.0833333 46 5.0333333 45.7 4.6666667 45.333333 Z M 16 38 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 24 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 16 30 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 16 22 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 16 14 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z m 12 0 c 0 -1.555556 -0.666667 -2 -3 -2 -2.333333 0 -3 0.444444 -3 2 0 1.555556 0.666667 2 3 2 2.333333 0 3 -0.444444 3 -2 z M 6.7322878 4.7447364 C 6.0301857 2.9150876 8.4800454 0.88004536 9.7980653 2.1980653 11.093963 3.4939634 10.238347 6 8.5 6 7.7926877 6 6.9972172 5.4351314 6.7322878 4.7447364 Z M 15 5.0817875 C 15 4.5767706 15.277552 3.440285 15.616783 2.5562641 16.080168 1.3487034 16.562799 1.2221923 17.557342 2.0475897 18.285419 2.6518398 18.634722 3.7883253 18.33357 4.5731131 17.732946 6.1383155 15 6.5553397 15 5.0817875 Z M 23.190371 4.25 C 23.375731 3.2875 24.190065 2.5 25 2.5 c 0.809935 0 1.624269 0.7875 1.809629 1.75 C 27.046091 5.477849 26.506149 6 25 6 23.493851 6 22.953909 5.477849 23.190371 4.25 Z M 31.66643 4.5731131 C 31.365278 3.7883253 31.714581 2.6518398 32.442658 2.0475897 33.437201 1.2221923 33.919832 1.3487034 34.383217 2.5562641 34.722448 3.440285 35 4.5767706 35 5.0817875 35 6.5553397 32.267054 6.1383155 31.66643 4.5731131 Z m 8.018704 0.048742 c -0.290864 -0.7579798 -0.0583 -1.8486852 0.516801 -2.4237898 1.31802 -1.31801994 3.767879 0.7170223 3.065777 2.5466711 -0.643789 1.6776872 -2.921616 1.5995583 -3.582578 -0.1228813 z" FillRule="NonZero"/>
+                                    </Path.Data>
+                                </Path>
+                            </Canvas>
+                            <Path Fill="{DynamicResource ForegroundColor}" Stroke="{DynamicResource ForegroundColor}">
+                                <Path.Data>
+                                    <PathGeometry Figures="M 6.7421807 6.4955159 7.1440171 4.3487766 5.603392 2.8007341 7.7692367 2.5195242 8.7654333 0.57593128 9.7021625 2.5488734 11.858471 2.8957094 10.271557 4.3962645 10.608032 6.5542139 8.6905359 5.5086658 Z" FillRule="NonZero"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="{DynamicResource ForegroundColor}" Stroke="{DynamicResource ForegroundColor}">
+                                <Path.Data>
+                                    <PathGeometry Figures="m 14.861401 6.4043644 0.401837 -2.1467393 -1.540625 -1.5480425 2.165844 -0.2812098 0.996197 -1.943593 0.936729 1.9729421 2.156309 0.346836 -1.586915 1.5005551 0.336476 2.1579494 -1.917496 -1.0455481 z" FillRule="NonZero"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="{DynamicResource ForegroundColor}" Stroke="{DynamicResource ForegroundColor}">
+                                <Path.Data>
+                                    <PathGeometry Figures="M 22.788535 6.3967393 23.190371 4.25 21.649746 2.7019575 l 2.165845 -0.2812098 0.996197 -1.943593 0.936729 1.9729421 2.156308 0.346836 -1.586914 1.5005551 0.336475 2.1579494 -1.917496 -1.0455481 z" FillRule="NonZero"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="{DynamicResource ForegroundColor}" Stroke="{DynamicResource ForegroundColor}">
+                                <Path.Data>
+                                    <PathGeometry Figures="M 31.141299 6.2399212 31.543135 4.0931819 30.00251 2.5451393 32.168355 2.2639295 33.164552 0.32033655 34.101281 2.2932786 36.257589 2.6401146 34.670675 4.1406697 35.00715 6.2986191 33.089654 5.2530711 Z" FillRule="NonZero"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="{DynamicResource ForegroundColor}" Stroke="{DynamicResource ForegroundColor}">
+                                <Path.Data>
+                                    <PathGeometry Figures="m 39.199031 6.1576992 0.401836 -2.1467393 -1.540625 -1.5480426 2.165845 -0.2812098 0.996196 -1.94359294 0.93673 1.97294204 2.156308 0.346836 -1.586914 1.5005551 0.336475 2.1579494 -1.917496 -1.045548 z" FillRule="NonZero"/>
+                                </Path.Data>
+                            </Path>
+                        </Canvas>
+                    </Canvas>
+                </Viewbox>
+
+                <!--Data-->
+                <StackPanel Grid.Row="1"
+                            Margin="0,20,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center">
+
+                    <!--Name-->
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Название: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                        <Grid Margin="10,0,0,0">
+                            <Label Width="200"
+                               Visibility="{Binding LabelVisibility, UpdateSourceTrigger=PropertyChanged}"
+                               Content="{Binding Name}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                            <TextBox Width="200" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                        </Grid>
+                    </StackPanel>
+
+                    <!--Address-->
+                    <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                        <Label Content="Адрес: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                        <Grid Margin="10,0,0,0">
+                            <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding Address}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                            <TextBox Width="200" Text="{Binding Address}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                        </Grid>
+                    </StackPanel>
+
+                    <!--Country-->
+                    <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                        <Label Content="Страна: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                        <Grid Margin="10,0,0,0">
+                            <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding Country}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                            <TextBox Width="200" Text="{Binding Country}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                        </Grid>
+                    </StackPanel>
+
+                    <!--City-->
+                    <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                        <Label Content="Город: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                        <Grid Margin="10,0,0,0">
+                            <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding City}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                            <TextBox Width="200" Text="{Binding City}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                        </Grid>
+                    </StackPanel>
+
+                    <!--Phone-->
+                    <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                        <Label Content="Номер телефона: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                        <Grid Margin="10,0,0,0">
+                            <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding Phone}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                            <TextBox Width="200" Text="{Binding Phone}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                            Margin="0,15,0,0">
+                        <Label Content="Контактное лицо: "
+                           Style="{DynamicResource LabelStyle}"
+                           Width="150"
+                           HorizontalContentAlignment="Right"></Label>
+                        <Grid Margin="10,0,0,0">
+                            <Label Width="200"
+                               Visibility="{Binding LabelVisibility}"
+                               Content="{Binding ContactPerson}"
+                               Style="{DynamicResource LabelStyle}"></Label>
+                            <TextBox Width="200" Text="{Binding ContactPerson}"
+                                 Visibility="{Binding LabelVisibility, Converter={StaticResource VisibilityConverter}}"
+                                 FontSize="16"
+                                 Foreground="{DynamicResource ForegroundColor}"></TextBox>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center">
+                    <Button Content="Принять"
+                        Width="100"
+                        Margin="10"
+                        Height="25"
+                        Command="{Binding ApplyCommand}"/>
+                    <Button Content="Изменить" Width="100"
+                        Margin="10"
+                        Command="{Binding ChangeCommand}"
+                        Visibility="{Binding ChangeBtnVisibility}"></Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
